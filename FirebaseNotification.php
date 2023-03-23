@@ -11,8 +11,10 @@ class FirebaseNotification
 
     public function __construct($key = null)
     {
+
         if($key !== null)
             $this->init($key);
+
     }
 
     public function init($key): void
@@ -23,7 +25,7 @@ class FirebaseNotification
     /**
      * @throws GuzzleException
      */
-    public function send($token, $title, $body, $priority = 'high', $mutable_content = true, $sound = 'default', $url = "", $dl = null): stdClass
+    public function send($token, $title, $body, $priority = 'high', $mutable_content = true, $sound = 'default', $url = "https://linkpharmacy-files.s3.amazonaws.com/ic_launcher.png", $dl = null, $data = []): stdClass
     {
 
         $data = [
@@ -38,11 +40,11 @@ class FirebaseNotification
             "data" => [
                 "url" => $url,
                 "dl"  => $dl
-            ]
+            ] + $data
         ];
 
         $response = $this->client->post('send', ['body' => json_encode($data)])->getBody()->getContents();
-        
+
         return json_decode($response);
 
     }
