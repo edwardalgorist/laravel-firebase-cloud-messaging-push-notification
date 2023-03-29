@@ -25,7 +25,7 @@ class FirebaseNotification
     /**
      * @throws GuzzleException
      */
-    public function send($token, $title, $body, $priority = 'high', $mutable_content = true, $sound = 'default', $url = "https://linkpharmacy-files.s3.amazonaws.com/ic_launcher.png", $dl = null, $data = []): stdClass
+    public function send($token, $title, $body, $priority = 'high', $mutable_content = true, $sound = 'default', $data = []): stdClass
     {
 
         $data = [
@@ -37,10 +37,7 @@ class FirebaseNotification
                 "mutable_content"=> $mutable_content,
                 "sound"=> $sound
             ],
-            "data" => [
-                "url" => $url,
-                "dl"  => $dl
-            ] + $data
+            "data" => $data
         ];
 
         $response = $this->client->post('send', ['body' => json_encode($data)])->getBody()->getContents();
